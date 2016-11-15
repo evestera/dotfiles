@@ -1,0 +1,69 @@
+#!/bin/bash
+
+set -o noclobber
+
+echo "Creating directory tree"
+mkdir -p src/{main/{java,resources},test/{java,resources}}
+
+echo "Creating build.gradle"
+cat >build.gradle <<EOL
+plugins {
+    id 'java'
+    id 'application'
+}
+
+mainClassName = "Main"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+        //showStandardStreams = true
+    }
+}
+EOL
+
+echo "Creating .gitignore"
+cat >.gitignore <<EOL
+.gradle/
+build/
+
+.idea/
+*.iml
+EOL
+
+echo "Creating .editorconfig"
+cat >.editorconfig <<EOL
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+[*.{java,gradle}]
+indent_style = space
+indent_size = 4
+EOL
+
+echo "Creating Gradle wrapper"
+gradle wrapper
+
+echo "Initializing git"
+git init
+git add --all
+git commit -m "Initial commit"
+
+echo "Creating Main.java"
+cat >src/main/java/Main.java <<EOL
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello world");
+    }
+}
+EOL

@@ -1,0 +1,46 @@
+[alias]
+	unstage = reset HEAD
+	preview = diff --cached
+	lg = log --all --oneline --graph --decorate
+	st = status -s
+	co = checkout
+	wdiff = diff --color-words
+
+	# Remove the old tag with this name and tag the latest commit with it.
+	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+
+	alias = !git config --list | fgrep alias. | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort | cut -c -80
+
+	lgbu = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	com = checkout master
+	cob = checkout -b
+	pc = push origin HEAD
+
+	assume-unchanged = update-index --assume-unchanged
+	no-assume-unchanged = update-index --no-assume-unchanged
+	ls-assume-unchanged = !git ls-files -v | grep "^h" | cut -c 3-
+
+	amend = commit --amend
+
+	branch-name = rev-parse --abbrev-ref HEAD
+	update = "!r() { bname=$(git branch-name); git com && git pull --ff-only origin master && git co $bname && git rebase master; }; r"
+	mom = "!r() { bname=$(git branch-name); git com && git merge --ff-only $bname; }; r"
+
+	new-alias = "!r() { git config --global alias.$1 \"${*:2}\"; }; r"
+[push]
+	default = current
+[fetch]
+	prune = true
+[core]
+	excludesfile = ~/dotfiles/gitignore
+[include]
+	path = ~/dotfiles/gitconfig.local
+[merge]
+	tool = intellij
+[mergetool "intellij"]
+	cmd = idea merge $(cd $(dirname "$LOCAL") && pwd)/$(basename "$LOCAL") $(cd $(dirname "$REMOTE") && pwd)/$(basename "$REMOTE") $(cd $(dirname "$BASE") && pwd)/$(basename "$BASE") $(cd $(dirname "$MERGED") && pwd)/$(basename "$MERGED")
+	trustExitCode = true
+[diff]
+	tool = intellij
+[difftool "intellij"]
+	cmd = idea diff $(cd $(dirname "$LOCAL") && pwd)/$(basename "$LOCAL") $(cd $(dirname "$REMOTE") && pwd)/$(basename "$REMOTE")

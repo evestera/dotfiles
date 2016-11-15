@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+make $(basename ${1%.*})
+./$(basename ${1%.*}) "${@:2}"
+rm $(basename ${1%.*})

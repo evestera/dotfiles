@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+echo "javac $1"
+javac $1
+echo "java $(basename ${1%.*} ${@:2})"
+java $(basename ${1%.*}) "${@:2}"
+rm -f *.class
