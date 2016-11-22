@@ -5,6 +5,7 @@ fi
 
 unsetopt correct
 
+export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/dotfiles/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
@@ -17,9 +18,8 @@ alias yse='ssh 95.215.45.137'
 alias sml='PARSER_PRIMARY_PROMPT="$ " PARSER_SECONDARY_PROMPT=">   " rlwrap -p red sml'
 alias dotf='atom ~/dotfiles'
 
-export JAVA_HOME=$(/usr/libexec/java_home)
-
 alias java8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
 alias java9='export JAVA_HOME=$(/usr/libexec/java_home -v 9)'
+java8
 
-alias jshell="$JAVA_HOME/bin/jshell"
+alias jshell="/usr/libexec/java_home -v 9 --exec jshell"
