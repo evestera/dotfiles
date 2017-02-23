@@ -1,4 +1,7 @@
-# First, run whatever http://brew.sh says
+if ! [ -x "$(command -v brew)" ]; then
+  echo First, run whatever http://brew.sh says;
+  exit 1;
+fi
 
 brew install the_silver_searcher
 brew install wget
