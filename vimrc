@@ -13,6 +13,8 @@ set whichwrap+=<,>,h,l,[,]
 
 set showcmd
 
+set mouse=a
+
 let mapleader = "ø"
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>sv :source $MYVIMRC<cr>
