@@ -23,6 +23,7 @@ set incsearch
 set hlsearch
 :nnoremap <leader>c :let @/ = ""<CR>
 
+set term=screen-256color
 set background=dark
 colorscheme neodark
 
