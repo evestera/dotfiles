@@ -3,6 +3,10 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+if [[ -s "$HOME/dotfiles/zshrc.local" ]]; then
+  source "$HOME/dotfiles/zshrc.local"
+fi
+
 unsetopt correct # don't try to autocorrect in shell
 setopt append_create # if I try >>foo.txt and foo.txt does not exist, create it
 
