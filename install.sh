@@ -11,3 +11,6 @@ cp -n ~/dotfiles/gitconfig.local.init ~/dotfiles/gitconfig.local
 
 ln -s ~/dotfiles/vimrc ~/.vimrc
 ln -s ~/dotfiles/vim ~/.vim
+
+echo "If you are ready to change shell, run:"
+echo "chsh -s /bin/zsh"
