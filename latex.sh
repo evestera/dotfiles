@@ -12,8 +12,11 @@ sudo tlmgr install luatex85
 sudo tlmgr install biblatex
 sudo tlmgr install biber
 sudo tlmgr install logreq
+sudo tlmgr install titlesec
+sudo tlmgr install emptypage
+sudo tlmgr install stmaryrd
 
 # PDF viewer that auto-refreshes
 brew cask install skim
 # For jumping between Atom and Skim
-apm install git@github.com:Corwynt/skim-displayline.git
+apm install git@github.com:evestera/skim-displayline.git
