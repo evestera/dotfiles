@@ -28,6 +28,9 @@ def main(arguments):
         help='keep all generated files (.aux, .log, etc)')
     parser.add_argument('-m', '--minted', action='store_true',
         help='use minted for code snippets')
+    parser.add_argument('-e', '--executable', default='lualatex',
+        help='which LaTeX executable to use (default: %(default)s)')
+
 
     args = parser.parse_args(arguments)
 
@@ -40,16 +43,16 @@ def main(arguments):
     os.chdir(os.path.dirname(texfile))
 
     if not os.path.isfile(texfile):
-        print 'No such file: ' + args.file
+        print err('No such file: ' + args.file)
         return
 
-    if not spawn.find_executable('lualatex'):
-        print err('Could not find executable. Have you installed LaTeX?')
+    if not spawn.find_executable(args.executable):
+        print err('Could not find ' + args.executable + '. Have you installed LaTeX?')
         return
 
     initialfiles = set(os.listdir('.'))
 
-    command = ['lualatex']
+    command = [args.executable]
     command += ['-file-line-error']
     command += ['-synctex=1']
     if args.minted:
@@ -57,7 +60,8 @@ def main(arguments):
     command += ['--jobname', os.path.basename(inpath)]
     command += [texfile]
 
-    print '\nRunning pdflatex:\n  ' + ' '.join(command)
+    print '\nRunning ' + args.executable + ':'
+    print '  ' + ' '.join(command)
     proc = subprocess.Popen(command,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
@@ -67,8 +71,19 @@ def main(arguments):
     errors = re.findall('(.*Error.*)', stdout)
     errors += re.findall('(.*?):([0-9]*?): ([^.!]*)', stdout)
     warnings = re.findall('.*[Ww]arning.*', stdout)
+    boxes = re.findall(r'^(((Over|Under)full[^\n]*)\n([^\n]*))', stdout,
+        flags=re.MULTILINE)
 
     logging.debug(stdout)
+
+    if len(boxes) > 0:
+        print warn('There were {} bad boxes:'.format(len(boxes)))
+        for box in boxes:
+            if 'paragraph' in box[0]:
+                print box[1]
+                print '  ' + box[3]
+            else:
+                print box[1]
 
     if len(errors) > 0:
         print err('Compilation ended with {} errors:'.format(len(errors)))
