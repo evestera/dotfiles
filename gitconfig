@@ -1,8 +1,10 @@
 [alias]
 	unstage = reset HEAD
+	patch = add --patch
 	preview = diff --cached
 	lg = log --all --oneline --graph --decorate
 	lx = !git lg -10
+	lv = log --all --graph --date=relative --format='%C(auto)%h%d%Creset %s %Cblue<%an> %Cgreen(%cd)%Creset'
 	st = status -s
 	co = checkout
 	com = checkout master
@@ -43,6 +45,10 @@
 	excludesfile = ~/dotfiles/gitignore
 [include]
 	path = ~/dotfiles/gitconfig.local
+[color "status"]
+	added = green
+	changed = yellow bold
+	untracked = red bold
 [merge]
 	tool = intellij
 [mergetool "intellij"]
