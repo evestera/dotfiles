@@ -2,6 +2,10 @@ function mkcd() {
   mkdir -p "$@" && cd ${@: -1};
 }
 
+function texd() {
+  open "http://texdoc.net/pkg/$1";
+}
+
 function wtf_header() {
   echo "\x1b[34m${1}:\x1b[0m"
 }
