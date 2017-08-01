@@ -1,0 +1,20 @@
+#!/usr/bin/osascript
+
+-- Requires Keychain Access -> Preferences -> Show keychain status in menu bar
+
+tell application "System Events" to tell process "SystemUIServer"
+  if (menu bar item 1 of menu bar 1 where description is "Keychain menu extra") exists then
+    tell (menu bar item 1 of menu bar 1 where description is "Keychain menu extra")
+      click
+      click menu item "Lock Screen" of menu 1
+    end tell
+  else
+    return "
+    Locking screen failed!
+    Make sure
+      Keychain Access
+        -> Preferences
+        -> Show keychain status in menu bar
+    is checked."
+  end if
+end tell
