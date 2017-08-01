@@ -9,9 +9,12 @@ brew install rlwrap
 brew install tree
 brew install atool
 brew install jq
+brew install hr
+brew install fzf
 brew install watchexec
 brew install python
 brew install python3
+brew install node
 
 brew tap caskroom/cask
 brew cask install atom
@@ -21,6 +24,11 @@ brew cask install spotify
 brew cask install nvalt
 brew cask install slack
 brew cask install spectacle
+brew cask install itsycal
+brew cask install skype
+brew cask install marked
+brew cask install licecap
+brew cask install imageoptim
 
 # Quick Look plugins
 brew cask install qlcolorcode
@@ -32,6 +40,8 @@ apm install editorconfig
 apm install expand-region
 apm install less-than-slash
 apm install set-syntax
+apm install zentabs
+apm install open-in-browser
 
 apm install language-haskell
 apm install language-rust
