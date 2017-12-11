@@ -26,8 +26,16 @@ alias sml='PARSER_PRIMARY_PROMPT="$ " PARSER_SECONDARY_PROMPT=">   " rlwrap -p r
 alias dotf='atom ~/dotfiles'
 alias cdotf='cd ~/dotfiles'
 
-alias java8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
-alias java9='export JAVA_HOME=$(/usr/libexec/java_home -v 9)'
-java8
+if [[ `uname` == 'Darwin' ]]; then
+  alias java8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
+  alias java9='export JAVA_HOME=$(/usr/libexec/java_home -v 9)'
+  java8
 
-alias jshell="/usr/libexec/java_home -v 9 --exec jshell"
+  alias jshell="/usr/libexec/java_home -v 9 --exec jshell"
+elif [[ `uname` == 'Linux' ]]; then
+  alias open='xdg-open'
+  alias pbcopy='xclip -selection clipboard'
+  alias pbpaste='xclip -selection clipboard -o'
+elif grep -q Microsoft /proc/version; then
+  # WSL stuff here
+fi
