@@ -4,15 +4,24 @@
 	preview = diff --cached
 	lg = log --all --oneline --graph --decorate
 	lx = !git lg -10
+	lgd = !git lg --date-order
 	lv = log --all --graph --date=relative --format='%C(auto)%h%d%Creset %s %Cblue<%an> %Cgreen(%cd)%Creset'
 	st = status -s
 	co = checkout
 	com = checkout master
+	cod = checkout develop
 	cob = checkout -b
-	pc = push origin HEAD
+	pc = push -u origin HEAD
+	cp = cherry-pick
+
+	pwd = "!pwd"
+	basename = "!basename $(pwd)"
 
 	amend = commit --amend
 	credit = commit --amend --author
+	aua = !git add --update && git commit --amend --no-edit
+	apply-branch = merge --squash --no-commit
+	track = !git branch -u origin/$(git branch-name)
 
 	# git retag - Remove the old tag with this name and tag the latest commit with it:
 	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
