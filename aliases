@@ -1,0 +1,44 @@
+alias sb="rm -f ~/.bashrc && cp ~/dotfiles/bashrc ~/.bashrc && source ~/.bashrc"
+alias sgc="rm ~/.gitconfig && cp ~/dotfiles/gitconfig ~/.gitconfig"
+alias ..="cd .."
+alias mci="mvn clean install"
+alias nrs="npm run serve"
+
+alias la="ls -lAGFHh"
+alias ag="ag -W 180"
+alias gti='git'
+alias sl='ls'
+
+alias dotf='atom ~/dotfiles'
+alias cdotf='cd ~/dotfiles'
+alias kladd='atom ~/kladd'
+
+alias open='explorer'
+
+alias bb='explorer http://git/dashboard'
+alias repo='explorer http://git/projects/GPS/repos/$(git basename)/browse'
+
+alias ci='explorer https://ci-gpf/'
+alias job='explorer https://ci-gpf/job/Spring%20Boot/job/$(git basename)/job/$(urlencode $(git branch-name))/'
+
+alias octo='explorer https://octopus.mistraldev.com/app#/projects/$(git basename)/overview'
+
+alias jira="explorer http://issues"
+alias issue='explorer http://issues/browse/$(git branch-name | grep -o "GPSFOR-[0-9]*")'
+function iss {
+  explorer http://issues/browse/GPSFOR-$1
+}
+
+alias d='dirs -v'
+alias 1='OLD=$(dirs +1) && cd ${OLD//\~/$HOME}'
+alias 2='OLD=$(dirs +2) && cd ${OLD//\~/$HOME}'
+alias 3='OLD=$(dirs +3) && cd ${OLD//\~/$HOME}'
+alias 4='OLD=$(dirs +4) && cd ${OLD//\~/$HOME}'
+alias 5='OLD=$(dirs +5) && cd ${OLD//\~/$HOME}'
+alias 6='OLD=$(dirs +6) && cd ${OLD//\~/$HOME}'
+alias 7='OLD=$(dirs +7) && cd ${OLD//\~/$HOME}'
+alias 8='OLD=$(dirs +8) && cd ${OLD//\~/$HOME}'
+alias 9='OLD=$(dirs +9) && cd ${OLD//\~/$HOME}'
+alias 10='OLD=$(dirs +10) && cd ${OLD//\~/$HOME}'
+alias 11='OLD=$(dirs +11) && cd ${OLD//\~/$HOME}'
+alias 12='OLD=$(dirs +12) && cd ${OLD//\~/$HOME}'
