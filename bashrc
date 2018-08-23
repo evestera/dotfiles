@@ -1,4 +1,13 @@
 source ~/dotfiles/aliases
+source ~/dotfiles/fzfbash.sh
+
+export PATH="$HOME/.local/bin:$PATH"
+
+shopt -s histappend
+export HISTCONTROL=ignoreboth
+export HISTFILESIZE=10000
+export HISTSIZE=10000
+export PROMPT_COMMAND='history -a'
 
 c() {
   if [[ $# -eq 0 ]] ; then
