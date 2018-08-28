@@ -9,6 +9,10 @@ export HISTFILESIZE=10000
 export HISTSIZE=10000
 export PROMPT_COMMAND='history -a'
 
+first() {
+  echo $1
+}
+
 c() {
   if [[ $# -eq 0 ]] ; then
       cd
@@ -18,7 +22,7 @@ c() {
 
   for var in "$@"
   do
-      cd $var 2>/dev/null || cd $var* 2>/dev/null || cd *$var* || return 1
+      cd $(first $var) 2>/dev/null || cd $(first $var*) 2>/dev/null || cd $(first *$var*) || return 1
   done
 
   pushd .>/dev/null
