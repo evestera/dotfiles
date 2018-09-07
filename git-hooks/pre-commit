@@ -1,0 +1,12 @@
+#!/bin/bash
+
+git diff --cached | grep -i "^\+ .*NOCOMMIT"
+rc=$?
+
+if [[ $rc != 1 ]]; then
+  echo ;
+  echo 'Trying to commit a "nocommit"-message!';
+  echo 'Aborting commit. Remove before committing.';
+  echo '(Use `git commit --no-verify` to skip commit hooks)';
+  exit 1;
+fi
