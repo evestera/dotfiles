@@ -53,6 +53,7 @@
 	prune = true
 [core]
 	excludesfile = ~/dotfiles/gitignore
+	hooksPath = ~/dotfiles/git-hooks
 [include]
 	path = ~/dotfiles/gitconfig.local
 [color "status"]
