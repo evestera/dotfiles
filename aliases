@@ -3,6 +3,7 @@ alias sgc="rm ~/.gitconfig && cp ~/dotfiles/gitconfig ~/.gitconfig"
 alias ..="cd .."
 alias mci="mvn clean install"
 alias nrs="npm run serve"
+alias nrp="npm run prettier"
 
 alias la="ls -lAGFHh"
 alias ag="ag -W 180"
@@ -18,8 +19,8 @@ alias open='explorer'
 alias bb='explorer http://git/dashboard'
 alias repo='explorer http://git/projects/GPS/repos/$(git basename)/browse'
 
-alias ci='explorer https://ci-gpf/'
-alias job='explorer https://ci-gpf/job/Spring%20Boot/job/$(git basename)/job/$(urlencode $(git branch-name))/'
+alias ci='explorer https://gpf-jenkins/'
+alias job='explorer https://gpf-jenkins/job/Spring%20Boot/job/$(git basename)/job/$(urlencode $(git branch-name))/'
 
 alias octo='explorer https://octopus.mistraldev.com/app#/projects/$(git basename)/overview'
 
@@ -27,6 +28,26 @@ alias jira="explorer http://issues"
 alias issue='explorer http://issues/browse/$(git branch-name | grep -o "GPSFOR-[0-9]*")'
 function iss {
   explorer http://issues/browse/GPSFOR-$1
+}
+
+function latest {
+  latestmvn 'no/gjensidige/gpf/gpf-starter-web';
+  latestmvn 'no/gjensidige/gps/gps-ivh-api';
+  latestmvn 'no/gjensidige/gps/gpf-fdc-api';
+  latestmvn 'no/gjensidige/gps/gps-commons-part-soa';
+  latestmvn 'no/gjensidige/gpf/handelsstotte/gpf-handelsstotte';
+  latestmvn 'no/gjensidige/gps/gps-commons-domain';
+  latestmvn 'no/gjensidige/gps/gps-web-sikkerhet';
+  latestnpm 'gpf-js-utils';
+  latestnpm 'gpf-react-components';
+}
+
+function latestmvn {
+  curl -s "http://nexus.mistraldev.com/content/groups/public/$1/maven-metadata.xml" | xq -r '.metadata.artifactId + "  " + .metadata.versioning.release'
+}
+
+function latestnpm {
+  curl -s "http://nexus.mistraldev.com/content/groups/npmgroup/$1/" | jq -r '.name + "  " + ."dist-tags".latest'
 }
 
 alias d='dirs -v'

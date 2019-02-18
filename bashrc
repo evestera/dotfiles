@@ -1,7 +1,7 @@
 source ~/dotfiles/aliases
 source ~/dotfiles/fzfbash.sh
 
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
 shopt -s histappend
 export HISTCONTROL=ignoreboth
@@ -30,6 +30,7 @@ c() {
 }
 
 alias cg="c && c git"
+alias c.="c .."
 
 urlencode() {
     # urlencode <string>

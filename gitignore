@@ -4,3 +4,6 @@
 # IntelliJ
 .idea/
 *.iml
+
+# git-bash vim
+vim.exe.stackdump

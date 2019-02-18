@@ -18,6 +18,11 @@
 	pwd = "!pwd"
 	basename = "!basename $(pwd)"
 
+	# fzf fuzzy selection
+	af = "!git unstage && git status --porcelain | sed s/^...// | fzf -m --preview 'git diff --color=always {}' | xargs git add"
+	bf = "!git branch --color | cut -c3- | fzf --ansi --preview 'git log --color --oneline develop..{}'"
+	cof = "!git co $(git bf)"
+
 	amend = commit --amend
 	credit = commit --amend --author
 	aua = !git add --update && git commit --amend --no-edit
