@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+if ! [ -x "$(command -v exa)" ]; then
+  echo 'Error: exa is not installed.' >&2
+  echo 'To fix on mac: brew install exa' >&2
+  exit 1
+fi
+
+if ! [ -x "$(command -v bat)" ]; then
+  echo 'Error: bat is not installed.' >&2
+  echo 'To fix on mac: brew install bat' >&2
+  exit 1
+fi
+
+if [[ -d $1 ]]; then
+  exa --long --tree --git --header --all --color=always $1
+  exit
+fi
+
+diffout=$(git diff --color=always -- $1)
+
+case $diffout in
+  (*[![:blank:]]*) echo "$diffout";;
+  (*) bat --color=always $1
+esac

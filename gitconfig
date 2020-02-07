@@ -2,14 +2,27 @@
 	unstage = reset HEAD
 	patch = add --patch
 	preview = diff --cached
-	lg = log --all --oneline --graph --decorate
+	lg = log --oneline --graph --decorate
+	lga = log --all --oneline --graph --decorate
 	lx = !git lg -10
 	lv = log --all --graph --date=relative --format='%C(auto)%h%d%Creset %s %Cblue<%an> %Cgreen(%cd)%Creset'
 	st = status -s
 	co = checkout
 	com = checkout master
+	cod = checkout development
 	cob = checkout -b
-	pc = push origin HEAD
+	pc = push -u origin HEAD
+	cp = cherry-pick
+
+	pwd = "!pwd"
+	basename = "!basename $(pwd)"
+
+	reviewers = "shortlog --summary --numbered --email --after='1 year ago'"
+
+	# fzf fuzzy selection
+	af = "!git unstage && git status --porcelain | sed s/^...// | fzf -m --preview 'afpreview {}' | xargs git add"
+	bf = "!git branch --color | cut -c3- | fzf --ansi --preview 'git log --color --oneline develop..{}'"
+	cof = "!git co $(git bf)"
 
 	amend = commit --amend
 	credit = commit --amend --author
@@ -43,6 +56,8 @@
 	prune = true
 [core]
 	excludesfile = ~/dotfiles/gitignore
+	# Note: The following line breaks in-repo git hooks that does not have a hook in the hooksPath
+	# looking for them. See start of git-hooks/pre-commit for an example.
 	hooksPath = ~/dotfiles/git-hooks
 [include]
 	path = ~/dotfiles/gitconfig.local
