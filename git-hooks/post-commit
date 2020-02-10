@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [[ -f "$(git pwd)/.git/hooks/post-commit" ]]; then
+  "$(git pwd)/.git/hooks/post-commit" || exit 1;
+fi
+
+if [[ -n "$(git config --local filter.lfs.clean)" ]]; then
+  echo "Running Git LFS post-commit";
+  git lfs post-commit "$@";
+fi

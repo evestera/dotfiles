@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [[ -f "$(git pwd)/.git/hooks/pre-push" ]]; then
+  "$(git pwd)/.git/hooks/pre-push" || exit 1;
+fi
+
+if [[ -n "$(git config --local filter.lfs.clean)" ]]; then
+  echo "Running Git LFS pre-push";
+  git lfs pre-push "$@";
+fi
