@@ -1,0 +1,8 @@
+/* Disney Plus */
+@media (min-width: 3000px) {
+  .btm-media-client-element {
+    max-height: 1500px !important;
+    top: -30px;
+    position: relative;
+  }
+}
