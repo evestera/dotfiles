@@ -5,7 +5,8 @@
 	lg = log --oneline --graph --decorate
 	lga = log --all --oneline --graph --decorate
 	lx = !git lg -10
-	lv = log --all --graph --date=relative --format='%C(auto)%h%d%Creset %s %Cblue<%an> %Cgreen(%cd)%Creset'
+	lv = log --graph --date=relative --format='%C(auto)%h%d%Creset %s %Cblue<%an> %Cgreen(%cd)%Creset'
+	lva = !git lv --all
 	st = status -s
 	co = checkout
 	com = checkout master
@@ -21,6 +22,7 @@
 
 	# fzf fuzzy selection
 	af = "!git unstage && git status --porcelain | sed s/^...// | fzf -m --preview 'afpreview {}' | xargs git add"
+	df = "!git status --porcelain | sed s/^...// | fzf -m --preview 'afpreview {}' | xargs git add"
 	bf = "!git branch --color | cut -c3- | fzf --ansi --preview 'git log --color --oneline develop..{}'"
 	cof = "!git co $(git bf)"
 
@@ -74,3 +76,5 @@
 	tool = intellij
 [difftool "intellij"]
 	cmd = idea diff $(cd $(dirname "$LOCAL") && pwd)/$(basename "$LOCAL") $(cd $(dirname "$REMOTE") && pwd)/$(basename "$REMOTE")
+[pull]
+	ff = only
