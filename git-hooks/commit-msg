@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ -f "$(git pwd)/.git/hooks/commit-msg" ]]; then
+  "$(git pwd)/.git/hooks/commit-msg" $1 || exit 1;
+fi
