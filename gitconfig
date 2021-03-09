@@ -23,6 +23,7 @@
 	# fzf fuzzy selection
 	af = "!git unstage && git status --porcelain | sed s/^...// | fzf -m --preview 'afpreview {}' | xargs git add"
 	df = "!git status --porcelain | sed s/^...// | fzf -m --preview 'afpreview {}' | xargs git add"
+	pf = "!git diff --cached --name-only | fzf -m --preview 'afpreview {}' | xargs git add"
 	bf = "!git branch --color | cut -c3- | fzf --ansi --preview 'git log --color --oneline develop..{}'"
 	cof = "!git co $(git bf)"
 
