@@ -12,14 +12,26 @@ if ! [ -x "$(command -v bat)" ]; then
   exit 1
 fi
 
+if ! [ -x "$(command -v diff-so-fancy)" ]; then
+  echo 'Error: diff-so-fancy is not installed.' >&2
+  echo 'To fix on mac: brew install diff-so-fancy' >&2
+  exit 1
+fi
+
+git -c color.status=always status -s "$1"
+
 if [[ -d $1 ]]; then
   exa --long --tree --git --header --all --color=always $1
   exit
 fi
 
-diffout=$(git diff --color=always -- $1)
+diffout=$(git diff HEAD --color=always -- $1 | diff-so-fancy)
 
 case $diffout in
-  (*[![:blank:]]*) echo "$diffout";;
-  (*) bat --color=always $1
+  (*[![:blank:]]*)
+    echo "$diffout"
+    ;;
+  (*)
+    bat --color=always $1
+    ;;
 esac
