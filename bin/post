@@ -1,0 +1,5 @@
+#!/bin/bash
+
+curl -s "https://www.posten.no/levering-av-post-2020/_/component/main/1/leftRegion/1?postCode=${1:-0692}" \
+  -H 'x-requested-with: XMLHttpRequest' \
+  | jq '.nextDeliveryDays | .[]' -r
