@@ -37,6 +37,9 @@ async function iconString(symbol: string): Promise<string> {
   if (!(await exists(iconPath))) {
     iconPath = iconPath.replace("_day", "").replace("_night", "");
   }
+  if (!(await exists(iconPath))) {
+    return `Error: Icon with path [${iconPath}] not found.`;
+  }
   const bytes = await Deno.readFile(iconPath);
   return image(bytes.buffer, {});
 }
