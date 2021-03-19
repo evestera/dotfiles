@@ -41,6 +41,14 @@ elif grep -q Microsoft /proc/version; then
   # WSL stuff here
 fi
 
+if [[ -s "/usr/local/opt/fzf/shell/key-bindings.zsh" ]]; then
+  source /usr/local/opt/fzf/shell/key-bindings.zsh
+fi
+
+if [ -x "$(command -v fnm)" ]; then
+  eval "$(fnm env)"
+fi
+
 if [[ -s "$HOME/dotfiles/zshrc.local" ]]; then
   source "$HOME/dotfiles/zshrc.local"
 fi
