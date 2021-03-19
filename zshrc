@@ -29,10 +29,10 @@ alias ut="ut.ts"
 if [[ `uname` == 'Darwin' ]]; then
   alias java8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
   alias java11='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
-  alias java15='export JAVA_HOME=$(/usr/libexec/java_home -v 15)'
+  alias java16='export JAVA_HOME=$(/usr/libexec/java_home -v 16)'
   export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 
-  alias jshell="/usr/libexec/java_home -v 11 --exec jshell"
+  alias jshell="/usr/libexec/java_home -v 16 --exec jshell "
 elif [[ `uname` == 'Linux' ]]; then
   alias open='xdg-open'
   alias pbcopy='xclip -selection clipboard'
