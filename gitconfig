@@ -9,7 +9,7 @@
 	lva = !git lv --all
 	st = status -s
 	co = checkout
-	com = checkout master
+	com = !git checkout $(git main-branch)
 	cod = checkout development
 	cob = checkout -b
 	pc = push -u origin HEAD
@@ -24,7 +24,7 @@
 	af = "!git unstage && git status --porcelain | sed s/^...// | fzf -m --preview 'afpreview {}' | xargs git add"
 	df = "!git status --porcelain | sed s/^...// | fzf -m --preview 'afpreview {}' | xargs git add"
 	pf = "!git diff --cached --name-only | fzf -m --preview 'afpreview {}' | xargs git add"
-	bf = "!git branch --color | cut -c3- | fzf --ansi --preview 'git log --color --oneline develop..{}'"
+	bf = "!git branch --color | cut -c3- | fzf --ansi --preview 'git log --color --oneline origin/HEAD..{}'"
 	cof = "!git co $(git bf)"
 
 	amend = commit --amend
@@ -39,6 +39,7 @@
 	no-assume-unchanged = update-index --no-assume-unchanged
 	ls-assume-unchanged = !git ls-files -v | grep "^h" | cut -c 3-
 
+	main-branch = "!git rev-parse --abbrev-ref origin/HEAD | sed 's/origin\\///'"
 	branch-name = rev-parse --abbrev-ref HEAD
 	# git pm - "protect master" - Add pre-commit hook to stop commits to master:
 	pm = "!echo '\n \
