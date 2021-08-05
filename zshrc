@@ -6,6 +6,12 @@ fi
 unsetopt correct # don't try to autocorrect in shell
 setopt append_create # if I try >>foo.txt and foo.txt does not exist, create it
 
+if [[ -s "/usr/local/bin/brew" ]]; then
+  eval $(/usr/local/bin/brew shellenv)
+elif [[ -s "/opt/homebrew/bin/brew" ]]; then
+  eval $(/opt/homebrew/bin/brew shellenv)
+fi
+
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/dotfiles/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -30,7 +36,7 @@ if [[ `uname` == 'Darwin' ]]; then
   alias java8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
   alias java11='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
   alias java16='export JAVA_HOME=$(/usr/libexec/java_home -v 16)'
-  export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+  export JAVA_HOME="$(/usr/libexec/java_home -v 16)"
 
   alias jshell="/usr/libexec/java_home -v 16 --exec jshell "
 elif [[ `uname` == 'Linux' ]]; then
@@ -41,12 +47,12 @@ elif grep -q Microsoft /proc/version; then
   # WSL stuff here
 fi
 
-if [[ -s "/usr/local/opt/fzf/shell/key-bindings.zsh" ]]; then
-  source /usr/local/opt/fzf/shell/key-bindings.zsh
+if [[ -s "$HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.zsh" ]]; then
+  source $HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.zsh
 fi
 
 if [ -x "$(command -v fnm)" ]; then
-  eval "$(fnm env)"
+  eval "$(fnm env --use-on-cd)"
 fi
 
 if [[ -s "$HOME/dotfiles/zshrc.local" ]]; then
