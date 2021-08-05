@@ -37,7 +37,7 @@ function expandHome(path: string): string {
 }
 
 // mkdir -p ~/.cache/ut/icons
-// curl -s https://api.met.no/weatherapi/weathericon/2.0/data | tar xzf data.tgz --strip-components 1 -C ~/.cache/ut/icons png
+// curl -s https://api.met.no/weatherapi/weathericon/2.0/data | tar xzf - --strip-components 1 -C ~/.cache/ut/icons png
 async function iconString(symbol: string): Promise<string> {
   const iconDir = expandHome("~/.cache/ut/icons");
   let iconPath = iconDir + "/" + symbol + ".png";
