@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run -q --allow-net=api.met.no --allow-read
+#!/usr/bin/env -S deno run -q --allow-net=api.met.no --allow-read --allow-env
 
 import { image } from "https://github.com/timcole/deno-twitch-chat/raw/9ce6c93e92a42204ede126f1cb2dc785922f3e30/images.ts";
 import { trimIndent } from "https://github.com/proudust/trim-margin-js/raw/4f70f92adda664b67d0067524c8e09e39772e9b7/index.ts";
@@ -31,8 +31,15 @@ function tempColor(temp: number): string {
   }
 }
 
+function expandHome(path: string): string {
+  const home = Deno.env.get("HOME")!;
+  return path.replace("~", home);
+}
+
+// mkdir -p ~/.cache/ut/icons
+// curl -s https://api.met.no/weatherapi/weathericon/2.0/data | tar xzf data.tgz --strip-components 1 -C ~/.cache/ut/icons png
 async function iconString(symbol: string): Promise<string> {
-  const iconDir = dirname(fromFileUrl(Deno.mainModule)) + "/png";
+  const iconDir = expandHome("~/.cache/ut/icons");
   let iconPath = iconDir + "/" + symbol + ".png";
   if (!(await exists(iconPath))) {
     iconPath = iconPath.replace("_day", "").replace("_night", "");
@@ -86,7 +93,8 @@ console.log();
 
 try {
   const time = new Date((await sunset).location.time[0].sunset.time);
-  console.log(`Solnedgang: ${time.getHours()}:${time.getMinutes()}`);
+  const timeFormat = new Intl.DateTimeFormat("no", { timeStyle: "short" });
+  console.log(`Solnedgang: ${timeFormat.format(time)}`);
 } catch (err) {
   console.error("Unable to fetch sunset data: " + err.message);
 }
