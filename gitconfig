@@ -4,7 +4,7 @@
 	preview = diff --cached
 	lg = log --oneline --graph --decorate
 	lga = log --all --oneline --graph --decorate
-	lx = !git lg -10
+	lx = !git lv -10
 	lv = log --graph --date=relative --format='%C(auto)%h%d%Creset %s %Cblue<%an> %Cgreen(%cd)%Creset'
 	lva = !git lv --all
 	st = status -s
@@ -42,10 +42,13 @@
 
 	main-branch = "!git rev-parse --abbrev-ref origin/HEAD | sed 's/origin\\///'"
 	branch-name = rev-parse --abbrev-ref HEAD
-	# git pm - "protect master" - Add pre-commit hook to stop commits to master:
+
+	stat = !git diff --stat $(git merge-base HEAD $(git main-branch))
+
+	# git pm - "protect main-branch" - Add pre-commit hook to stop commits to master:
 	pm = "!echo '\n \
-		if [ $(git branch-name) = \"master\" ]; then \
-			echo Branch master is protected!; \
+		if [ $(git branch-name) = $(git main-branch) ]; then \
+			echo Branch is protected!; \
 			echo Create a new branch before committing; \
 			exit 1; \
 		fi \
