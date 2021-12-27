@@ -3,19 +3,26 @@
 if ! [ -x "$(command -v exa)" ]; then
   echo 'Error: exa is not installed.' >&2
   echo 'To fix on mac: brew install exa' >&2
+  echo 'To fix on linux: cargo install exa' >&2
   exit 1
 fi
 
 if ! [ -x "$(command -v bat)" ]; then
   echo 'Error: bat is not installed.' >&2
   echo 'To fix on mac: brew install bat' >&2
+  echo 'To fix on linux: cargo install bat' >&2
   exit 1
 fi
 
+diffcmd="diff-so-fancy"
 if ! [ -x "$(command -v diff-so-fancy)" ]; then
-  echo 'Error: diff-so-fancy is not installed.' >&2
-  echo 'To fix on mac: brew install diff-so-fancy' >&2
-  exit 1
+  diffcmd="delta --diff-so-fancy"
+  if ! [ -x "$(command -v delta)" ]; then
+    echo 'Error: Neither delta nor diff-so-fancy is installed.' >&2
+    echo 'To fix on mac: brew install diff-so-fancy' >&2
+    echo 'To fix on Linux: cargo install git-delta' >&2
+    exit 1
+  fi
 fi
 
 git -c color.status=always status -s "$1"
@@ -25,7 +32,8 @@ if [[ -d $1 ]]; then
   exit
 fi
 
-diffout=$(git diff HEAD --color=always -- $1 | diff-so-fancy)
+
+diffout=$(git diff HEAD --color=always -- $1 | $diffcmd)
 
 case $diffout in
   (*[![:blank:]]*)
