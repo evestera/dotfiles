@@ -25,3 +25,13 @@ if [[ $rc != 1 ]]; then
   echo '(Use `git commit --no-verify` to skip commit hooks)';
   exit 1;
 fi
+
+git diff --cached | grep "^\+.*console\.log"
+rc=$?
+
+if [[ $rc != 1 ]]; then
+  echo ;
+  echo 'Trying to commit lines containing "console.log". Are you sure? (Aborting commit.)';
+  echo 'If you are sure, use `git commit --no-verify` to skip commit hooks';
+  exit 1;
+fi
