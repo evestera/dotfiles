@@ -4,7 +4,7 @@ if [[ -f "$(git pwd)/.git/hooks/pre-commit" ]]; then
   "$(git pwd)/.git/hooks/pre-commit" || exit 1;
 fi
 
-git diff --cached | grep -i "^\+ .*NOCOMMIT"
+git diff --cached | grep -i "^\+.*NOCOMMIT"
 rc=$?
 
 if [[ $rc != 1 ]]; then
@@ -15,7 +15,7 @@ if [[ $rc != 1 ]]; then
   exit 1;
 fi
 
-git diff --cached | grep -i "^\+ .*<<<<<<<"
+git diff --cached | grep "^\+.*<<<<<<<"
 rc=$?
 
 if [[ $rc != 1 ]]; then
