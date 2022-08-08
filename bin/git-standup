@@ -1,0 +1,6 @@
+#!/bin/bash
+
+since=${1:-"7 days ago"}
+author=${2:-$(git config user.name)}
+
+for d in */ ; do echo $d; git -C $d lv --since="$since" --author="$author" --date=short; done
