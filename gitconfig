@@ -21,12 +21,14 @@
 	reviewers = "shortlog --summary --numbered --email --after='1 year ago'"
 
 	# fzf fuzzy selection
-	af = "!git unstage && git status --porcelain | sed s/^...// | fzf -m --preview 'afpreview {}' | xargs git add"
-	df = "!git status --porcelain | sed s/^...// | fzf -m --preview 'afpreview {}' | xargs git add"
-	paf = "!git add --patch $(git status --porcelain | sed s/^...// | fzf -m --preview 'afpreview {}')"
-	pf = "!git diff --cached --name-only | fzf -m --preview 'afpreview {}' | xargs git add"
+	ff = "!git status --porcelain | sed 's/^...//' | fzf -m --preview 'afpreview {}'"
+	df = "!git ff | xargs git add"
+	af = "!git unstage && git df"
+	paf = "!git add --patch $(git ff)"
+	pf = "!git diff --cached --name-only | fzf --preview 'afpreview {} --cached'"
 	bf = "!git branch --color | cut -c3- | fzf --ansi --preview 'git log --color --oneline origin/HEAD..{}'"
 	cof = "!git co $(git bf)"
+	staf = "!git stash push -- $(git ff)"
 
 	amend = commit --amend
 	credit = commit --amend --author
