@@ -6,6 +6,8 @@ fi
 unsetopt correct # don't try to autocorrect in shell
 setopt append_create # if I try >>foo.txt and foo.txt does not exist, create it
 
+export PATH="$HOME/.cargo/bin:$PATH"
+
 if [[ -s "/usr/local/bin/brew" ]]; then
   eval $(/usr/local/bin/brew shellenv)
 elif [[ -s "/opt/homebrew/bin/brew" ]]; then
@@ -32,13 +34,12 @@ alias ckladd="cd ~/kladd"
 alias mtg="~/mtg/mtg"
 alias ut="ut.ts"
 
-if [[ `uname` == 'Darwin' ]]; then
-  alias java8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
-  alias java11='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
-  alias java16='export JAVA_HOME=$(/usr/libexec/java_home -v 16)'
-  export JAVA_HOME="$(/usr/libexec/java_home -v 16)"
+alias jshell="jshell --startup DEFAULT --startup PRINTING --startup ~/dotfiles/startup.jsh"
 
-  alias jshell="/usr/libexec/java_home -v 16 --exec jshell "
+alias power="system_profiler SPPowerDataType"
+
+if [[ `uname` == 'Darwin' ]]; then
+  # MacOS-specific stuff
 elif [[ `uname` == 'Linux' ]]; then
   alias open='xdg-open'
   alias pbcopy='xclip -selection clipboard'
