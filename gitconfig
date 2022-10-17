@@ -17,6 +17,7 @@
 
 	pwd = "!pwd"
 	basename = "!basename $(pwd)"
+	exec = "!bash -c"
 
 	reviewers = "shortlog --summary --numbered --email --after='1 year ago'"
 
