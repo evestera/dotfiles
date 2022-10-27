@@ -13,6 +13,7 @@
 	cod = checkout development
 	cob = checkout -b
 	pc = push -u origin HEAD
+	nb = "!git stash && git com && git pull && git stash pop"
 	cp = cherry-pick
 
 	pwd = "!pwd"
@@ -47,6 +48,8 @@
 	branch-name = rev-parse --abbrev-ref HEAD
 
 	stat = !git diff --stat $(git merge-base HEAD $(git main-branch))
+
+	delete-merged = "!git branch --merged | egrep -v \"(^\\*|master|main|dev)\" | xargs git branch -d"
 
 	# git pm - "protect main-branch" - Add pre-commit hook to stop commits to master:
 	pm = "!echo '\n \
@@ -87,6 +90,8 @@
 	cmd = idea diff $(cd $(dirname "$LOCAL") && pwd)/$(basename "$LOCAL") $(cd $(dirname "$REMOTE") && pwd)/$(basename "$REMOTE")
 [pull]
 	ff = only
+[add "interactive"]
+	useBuiltin = false
 [interactive]
    diffFilter = diff-so-fancy --patch
 [init]
