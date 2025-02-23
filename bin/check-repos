@@ -1,0 +1,117 @@
+#!/bin/bash
+
+# Known issue: Branches may be marked as unpushed if the remote branch has been deleted,
+#              and it was just a branch, not a pull request
+
+# Colors for output
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Function to determine the main branch name
+get_main_branch() {
+    # Try to get the main branch from the remote HEAD
+    main_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+
+    # If that fails, fall back to common main branch names
+    if [ -z "$main_branch" ]; then
+        if git show-ref --verify --quiet refs/heads/main; then
+            main_branch="main"
+        elif git show-ref --verify --quiet refs/heads/master; then
+            main_branch="master"
+        else
+            main_branch="unknown"
+        fi
+    fi
+    echo $main_branch
+}
+
+# Function to get the remote refs
+get_remote_refs() {
+    local folder=$1
+    local cache_file="/tmp/${folder}_remote_refs.cache"
+
+    if [ ! -f "$cache_file" ]; then
+        git ls-remote origin > "$cache_file"
+    fi
+
+    cat "$cache_file"
+}
+
+# Loop through all folders in the current directory
+for folder in */; do
+    # Remove trailing slash from folder name
+    folder=${folder%/}
+
+    echo -e "$folder:"
+
+    # Check if folder is a git repo
+    if ! [ -d "$folder/.git" ]; then
+        echo -e "  ${RED}No git repo${NC}"
+        echo ""
+        continue
+    fi
+
+    cd "$folder"
+
+    # Check if the repo has a remote
+    if ! git remote | grep -q origin; then
+        echo -e "  ${RED}No remote${NC}"
+        cd ..
+        echo ""
+        continue
+    fi
+
+    # Determine the main branch name
+    main_branch=$(get_main_branch)
+
+    if [ "$main_branch" == "unknown" ]; then
+        echo -e "  ${RED}Unable to determine main branch${NC}"
+        cd ..
+        echo ""
+        continue
+    fi
+
+    # Check if the repo is dirty
+    if [ -n "$(git status --porcelain)" ]; then
+        echo -e "  ${RED}Repo is dirty:${NC}"
+        git status -s | sed 's/^/    /'
+    fi
+
+    # Check if all branches have been pushed
+    all_pushed=true
+    unpushed_branches=()
+    for branch in $(git branch --format='%(refname:short)'); do
+        head_commit=$(git rev-parse $branch)
+        # Check if the remote-tracking branch exists
+        if git show-ref --quiet --verify "refs/remotes/origin/$branch"; then
+            if [ -n "$(git log origin/$branch..$branch)" ]; then
+                all_pushed=false
+                unpushed_branches+=("$branch (HEAD commit: $head_commit)")
+            fi
+        else
+            # Lazy load remote refs only if needed
+            remote_refs=$(get_remote_refs $folder)
+            # Check if the head commit exists in any remote reference or is an ancestor of main
+            if ! echo "$remote_refs" | grep -q $head_commit && ! git merge-base --is-ancestor $branch $main_branch; then
+                all_pushed=false
+                unpushed_branches+=("$branch (never pushed, HEAD commit: $head_commit)")
+            fi
+        fi
+    done
+
+    if ! $all_pushed; then
+        echo -e "  ${YELLOW}Unpushed branches:${NC}"
+        for branch in "${unpushed_branches[@]}"; do
+            echo -e "    ${branch}"
+        done
+    fi
+
+    if [ -z "$(git status --porcelain)" ] && $all_pushed; then
+        echo -e "  ${GREEN}OK${NC}"
+    fi
+
+    cd ..
+    echo ""
+done
