@@ -20,7 +20,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 export VISUAL=vim
 export EDITOR=vim
-export GUI_EDITOR=atom
+export GUI_EDITOR=code
 
 source "$HOME/dotfiles/zfunctions.zsh"
 
@@ -31,12 +31,12 @@ alias cdotf="cd ~/dotfiles"
 alias cg="cd ~/gitproj"
 alias kladd="$GUI_EDITOR ~/kladd"
 alias ckladd="cd ~/kladd"
-alias mtg="~/mtg/mtg"
+alias mtg="~/gitproj/mtg/mtg"
 alias ut="ut.ts"
 
 alias jshell="jshell --startup DEFAULT --startup PRINTING --startup ~/dotfiles/startup.jsh"
 
-alias power="system_profiler SPPowerDataType"
+alias power="system_profiler SPPowerDataType | extract-indented.ts 'AC Charger Information:'"
 
 if [[ `uname` == 'Darwin' ]]; then
   # MacOS-specific stuff
@@ -50,10 +50,6 @@ fi
 
 if [[ -s "$HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.zsh" ]]; then
   source $HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.zsh
-fi
-
-if [ -x "$(command -v fnm)" ]; then
-  eval "$(fnm env --use-on-cd)"
 fi
 
 if [[ -s "$HOME/dotfiles/zshrc.local" ]]; then
