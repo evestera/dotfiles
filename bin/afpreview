@@ -33,7 +33,7 @@ if [[ -d $1 ]]; then
 fi
 
 
-diffout=$(git diff HEAD --color=always $2 -- $1 | $diffcmd)
+diffout=$(git diff HEAD ${@:2} --color=always -- $1 | $diffcmd)
 
 case $diffout in
   (*[![:blank:]]*)

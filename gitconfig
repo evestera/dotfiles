@@ -2,11 +2,16 @@
 	unstage = reset HEAD
 	patch = add --patch
 	preview = diff --cached
+
 	lg = log --oneline --graph --decorate
 	lga = log --all --oneline --graph --decorate
 	lx = !git lv -10
 	lv = log --graph --date=relative --format='%C(auto)%h%d%Creset %s %Cblue<%an> %Cgreen(%cd)%Creset'
 	lva = !git lv --all
+	lg-md = log --no-merges main..HEAD --format='- %h %s'
+
+	sl = stash list --pretty=format:'%C(red)%h%C(reset) - %C(dim yellow)(%C(bold magenta)%gd%C(dim yellow))%C(reset) %<(70,trunc)%s %C(green)(%ci) %C(bold blue)<%an>%C(reset)'
+
 	st = status -s
 	co = checkout
 	com = !git checkout $(git main-branch)
@@ -64,6 +69,17 @@
 		git com && git pull --ff-only origin master && git co $bname && git rebase master; \
 	}; r"
 	mom = "!r() { bname=$(git branch-name); git com && git merge --ff-only $bname; }; r"
+
+	# used alongside ~/dotfiles/bin/git-d
+	d1 = "checkout @{-1}"
+	d2 = "checkout @{-2}"
+	d3 = "checkout @{-3}"
+	d4 = "checkout @{-4}"
+	d5 = "checkout @{-5}"
+	d6 = "checkout @{-6}"
+	d7 = "checkout @{-7}"
+	d8 = "checkout @{-8}"
+	d9 = "checkout @{-9}"
 [push]
 	default = current
 [fetch]
@@ -81,11 +97,13 @@
 	untracked = red bold
 [merge]
 	tool = intellij
+	conflictStyle = zdiff3
 [mergetool "intellij"]
 	cmd = idea merge $(cd $(dirname "$LOCAL") && pwd)/$(basename "$LOCAL") $(cd $(dirname "$REMOTE") && pwd)/$(basename "$REMOTE") $(cd $(dirname "$BASE") && pwd)/$(basename "$BASE") $(cd $(dirname "$MERGED") && pwd)/$(basename "$MERGED")
 	trustExitCode = true
 [diff]
 	tool = intellij
+	algorithm = histogram
 [difftool "intellij"]
 	cmd = idea diff $(cd $(dirname "$LOCAL") && pwd)/$(basename "$LOCAL") $(cd $(dirname "$REMOTE") && pwd)/$(basename "$REMOTE")
 [pull]
@@ -93,6 +111,18 @@
 [add "interactive"]
 	useBuiltin = false
 [interactive]
-   diffFilter = diff-so-fancy --patch
+	diffFilter = diff-so-fancy --patch
 [init]
 	defaultBranch = main
+[user]
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIfnXNmyYWo0Kgq+OoAjMzu+Qb3zN1zDnPOxKJU0gQUm
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+	allowedSignersFile = "/Users/erik/dotfiles/git_allowed_signers"
+[commit]
+	gpgsign = true
+	verbose = true
+[rerere]
+	enabled = true

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for i in {1..9}; do
+    REV=$(git rev-parse --symbolic-full-name @{-$i} 2>/dev/null);
+    [[ $REV = @* ]] && break;
+    echo $REV | sed 's/refs\/heads\///' | awk -v i=$i '{print "d" i " " $1}';
+done
