@@ -1,0 +1,4 @@
+#!/bin/zsh
+ssid=$(networksetup -getairportnetwork en0 | cut -d ":" -f 2 | tr -d '[:space:]')
+echo $ssid
+security find-generic-password -D "AirPort network password" -a "$ssid" -g | grep "password:"
