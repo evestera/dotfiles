@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-if ! [ -x "$(command -v exa)" ]; then
-  echo 'Error: exa is not installed.' >&2
-  echo 'To fix on mac: brew install exa' >&2
-  echo 'To fix on linux: cargo install exa' >&2
+if ! [ -x "$(command -v eza)" ]; then
+  echo 'Error: eza is not installed.' >&2
+  echo 'To fix on mac: brew install eza' >&2
+  echo 'To fix on linux: cargo install eza' >&2
   exit 1
 fi
 
@@ -28,7 +28,7 @@ fi
 git -c color.status=always status -s "$1"
 
 if [[ -d $1 ]]; then
-  exa --long --tree --git --header --all --color=always $1
+  eza --long --tree --git --header --all --color=always $1
   exit
 fi
 
