@@ -83,12 +83,13 @@ for folder in */; do
     all_pushed=true
     unpushed_branches=()
     for branch in $(git branch --format='%(refname:short)'); do
-        head_commit=$(git rev-parse $branch)
+        head_commit=$(git rev-parse --short $branch)
+        head_meta=$(git show $head_commit --format="<%an> (%cd)" -s)
         # Check if the remote-tracking branch exists
         if git show-ref --quiet --verify "refs/remotes/origin/$branch"; then
-            if [ -n "$(git log origin/$branch..$branch)" ]; then
+            if [ -n "$(git log origin/$branch..$branch --no-merges)" ]; then
                 all_pushed=false
-                unpushed_branches+=("$branch (HEAD commit: $head_commit)")
+                unpushed_branches+=("$branch - HEAD: $head_commit $head_meta")
             fi
         else
             # Lazy load remote refs only if needed
@@ -96,7 +97,7 @@ for folder in */; do
             # Check if the head commit exists in any remote reference or is an ancestor of main
             if ! echo "$remote_refs" | grep -q $head_commit && ! git merge-base --is-ancestor $branch $main_branch; then
                 all_pushed=false
-                unpushed_branches+=("$branch (never pushed, HEAD commit: $head_commit)")
+                unpushed_branches+=("$branch - never pushed, HEAD: $head_commit $head_meta")
             fi
         fi
     done

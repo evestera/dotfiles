@@ -9,6 +9,7 @@
 	lv = log --graph --date=relative --format='%C(auto)%h%d%Creset %s %Cblue<%an> %Cgreen(%cd)%Creset'
 	lva = !git lv --all
 	lg-md = log --no-merges main..HEAD --format='- %h %s'
+	lg-branch = "!r() { git log --no-merges main..$1 --format='%C(auto)%h%d%Creset %s %Cblue<%an> %Cgreen(%cd)%Creset'; }; r"
 
 	sl = stash list --pretty=format:'%C(red)%h%C(reset) - %C(dim yellow)(%C(bold magenta)%gd%C(dim yellow))%C(reset) %<(70,trunc)%s %C(green)(%ci) %C(bold blue)<%an>%C(reset)'
 

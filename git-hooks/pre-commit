@@ -33,5 +33,6 @@ if [[ $rc != 1 ]]; then
   echo ;
   echo 'Trying to commit lines containing "console.log". Are you sure? (Aborting commit.)';
   echo 'If you are sure, use `git commit --no-verify` to skip commit hooks';
+  echo "To see the diffs in question, run git diff --cached -G'console\.log'";
   exit 1;
 fi

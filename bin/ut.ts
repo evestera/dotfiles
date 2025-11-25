@@ -3,7 +3,6 @@
 import { image } from "https://github.com/timcole/deno-twitch-chat/raw/9ce6c93e92a42204ede126f1cb2dc785922f3e30/images.ts";
 import { trimIndent } from "https://github.com/proudust/trim-margin-js/raw/4f70f92adda664b67d0067524c8e09e39772e9b7/index.ts";
 import { exists } from "https://deno.land/std@0.75.0/fs/exists.ts";
-import { dirname, fromFileUrl } from "https://deno.land/std@0.75.0/path/mod.ts";
 
 /////
 
@@ -67,18 +66,24 @@ const radar = weatherApiFetch(
   `https://api.met.no/weatherapi/radar/2.0/.png?area=southeastern_norway&content=image&type=5level_reflectivity`,
 ).then((res) => res.arrayBuffer());
 
-const extractTemp = (it: any) => it.data.instant.details.air_temperature
-const minTempOf = (arr: any[]) => arr.map(extractTemp).reduce((a: number, b: number) => Math.min(a, b));
-const maxTempOf = (arr: any[]) => arr.map(extractTemp).reduce((a: number, b: number) => Math.max(a, b));
+const extractTemp = (it: unknown) => it.data.instant.details.air_temperature;
+const minTempOf = (arr: any[]) =>
+  arr.map(extractTemp).reduce((a: number, b: number) => Math.min(a, b));
+const maxTempOf = (arr: any[]) =>
+  arr.map(extractTemp).reduce((a: number, b: number) => Math.max(a, b));
 
 try {
-  const timeseries = (await forecast).properties.timeseries
+  const timeseries = (await forecast).properties.timeseries;
   const data = timeseries[0].data;
   console.log(await iconString(data.next_1_hours.summary.symbol_code));
   console.log(trimIndent`
     Temperatur: ${tempColor(data.instant.details.air_temperature)}
-      neste 6 timer: ${tempColor(minTempOf(timeseries.slice(0, 6)))} - ${tempColor(maxTempOf(timeseries.slice(0, 6)))}
-      neste 12 timer: ${tempColor(minTempOf(timeseries.slice(0, 12)))} - ${tempColor(maxTempOf(timeseries.slice(0, 12)))}
+      neste 6 timer: ${tempColor(minTempOf(timeseries.slice(0, 6)))} - ${
+    tempColor(maxTempOf(timeseries.slice(0, 6)))
+  }
+      neste 12 timer: ${tempColor(minTempOf(timeseries.slice(0, 12)))} - ${
+    tempColor(maxTempOf(timeseries.slice(0, 12)))
+  }
     Nedbør:
       neste time: ${data.next_1_hours.details.precipitation_amount_min} - ${data.next_1_hours.details.precipitation_amount_max} mm
       neste 6 timer: ${data.next_6_hours.details.precipitation_amount_min} - ${data.next_6_hours.details.precipitation_amount_max} mm
@@ -89,7 +94,6 @@ try {
 }
 
 console.log();
-
 
 try {
   const time = new Date((await sunset).location.time[0].sunset.time);
